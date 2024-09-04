@@ -35,7 +35,7 @@ public class ToDo {
     private Boolean done;
     
     @Column(name = "done_date", nullable = true)
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date doneDate;
     
     @Column(name = "priority", nullable = false)
