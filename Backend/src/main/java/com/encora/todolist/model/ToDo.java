@@ -6,9 +6,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
@@ -27,25 +26,22 @@ public class ToDo {
     private String text;
     
     @Column(name = "due_date", nullable = true)
-    @Temporal(TemporalType.DATE)
-    private Date dueDate;
+    private LocalDate dueDate;
     
     @Column(name = "done", nullable = false)
     @NonNull
     private Boolean done;
     
     @Column(name = "done_date", nullable = true)
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date doneDate;
+    private LocalDateTime doneDate;
     
     @Column(name = "priority", nullable = false)
     @NonNull
     private String priority;
     
     @Column(name = "creation_date", nullable = false)
-    @Temporal(TemporalType.TIMESTAMP)
     @NonNull
-    private Date creationDate;
+    private LocalDateTime creationDate;
 
     @Override
     public String toString() {
