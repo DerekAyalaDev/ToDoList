@@ -89,7 +89,7 @@ public class ToDoService {
         };
     }
     
-    private Specification<ToDo> DoneIs(String doneStatus) {
+    private Specification<ToDo> doneIs(String doneStatus) {
         return (root, query, criteriaBuilder) -> {
             if ("all".equalsIgnoreCase(doneStatus)) {
                 return criteriaBuilder.conjunction();
@@ -101,13 +101,13 @@ public class ToDoService {
         };
     }
     
-    private void HandleText(ToDo td, String text) {
+    private void handleText(ToDo td, String text) {
         if (text == null || text.isBlank()) {
             td.setText(text);
         }
     }
     
-    private void HandleDueDate(ToDo td, LocalDate dueDate) {
+    private void handleDueDate(ToDo td, LocalDate dueDate) {
         if(dueDate.isAfter(td.getDueDate())){           
             td.setDueDate(dueDate);
         }
