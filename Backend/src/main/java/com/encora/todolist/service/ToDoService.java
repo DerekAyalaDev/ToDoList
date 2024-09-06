@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -19,22 +21,24 @@ import org.springframework.stereotype.Service;
 public class ToDoService {
     private final ToDoRepository toDoRepository;
     
-    public void createToDo(ToDoDTO dto) {
+    public ResponseEntity<String> createToDo(ToDoDTO dto) {
         ToDo td = new ToDo();
-        HandleText(td, dto.getText());
-        HandleDueDate(td, dto.getDueDate());
+        handleText(td, dto.getText());
+        handleDueDate(td, dto.getDueDate());
         td.setDone(false);
         td.setCreationDate(LocalDateTime.now());
         td.setPriority(dto.getPriority());
         toDoRepository.save(td);
+        return new ResponseEntity<>("To Do created succesfully", HttpStatus.CREATED);
     }
     
-    public void deleteToDo(Long id) {
+    public ResponseEntity<String> deleteToDo(Long id) {
         ToDo td = findById(id);
         toDoRepository.delete(td);
+        return new ResponseEntity<>("To Do deleted succesfully", HttpStatus.NO_CONTENT);
     }
     
-    public void updateDone(Long id) {
+    public ResponseEntity<String> updateDone(Long id) {
         ToDo td = findById(id);
         if (td.getDone()) {
             td.setDone(false);
@@ -44,21 +48,25 @@ public class ToDoService {
             td.setDoneDate(LocalDateTime.now());
         }
         toDoRepository.save(td);
+        return new ResponseEntity<>("Status updated", HttpStatus.OK);
     }
     
-    public void updateToDo(Long id, ToDoDTO dto) {
+    public ResponseEntity<String> updateToDo(Long id, ToDoDTO dto) {
         ToDo td = findById(id);
-        HandleText(td, dto.getText());
-        HandleDueDate(td, dto.getDueDate());
+        handleText(td, dto.getText());
+        handleDueDate(td, dto.getDueDate());
         td.setPriority(dto.getPriority());
         toDoRepository.save(td);
+        return new ResponseEntity<>("To Do updated succesfully", HttpStatus.OK);
     }
     
-    public List<ToDo> searchToDos(SearchDTO dto) {
-        return toDoRepository.findAll(Specification
-                .where(textIsLike(dto.getText())
-                .and(priorityIs(dto.getPriority())
-                .and(DoneIs(dto.getState())))));
+    public ResponseEntity<List<ToDo>> searchToDos(SearchDTO dto) {
+        Specification<ToDo> specification = Specification
+            .where(textIsLike(dto.getText()))
+            .and(priorityIs(dto.getPriority()))
+            .and(doneIs(dto.getState()));
+        List<ToDo> tds = toDoRepository.findAll(specification);
+        return new ResponseEntity<>(tds, HttpStatus.OK);
     }
     
     private ToDo findById(Long id) {
