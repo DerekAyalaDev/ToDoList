@@ -2,11 +2,11 @@ package com.encora.todolist.service;
 
 import com.encora.todolist.dto.SearchDTO;
 import com.encora.todolist.dto.ToDoDTO;
+import com.encora.todolist.exception.ToDoNotFoundException;
 import com.encora.todolist.model.ToDo;
 import com.encora.todolist.repository.ToDoRepository;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -60,12 +60,9 @@ public class ToDoService {
         List<ToDo> tds = toDoRepository.findByCriteria(dto);
         return new ResponseEntity<>(tds, HttpStatus.OK);
     }
-        
+
     private ToDo findById(Long id) {
-        Optional<ToDo> optional = toDoRepository.findById(id);
-        if (optional.isEmpty()) {
-            
-        }
-        return optional.get();
+        return toDoRepository.findById(id)
+                .orElseThrow(() -> new ToDoNotFoundException(id));
     }
 }
