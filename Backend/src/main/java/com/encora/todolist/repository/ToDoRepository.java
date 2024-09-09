@@ -12,4 +12,6 @@ public interface ToDoRepository {
     void save(ToDo toDo);
     void delete(ToDo toDo);
     List<ToDo> findByCriteria(SearchDTO searchDTO);
+    void deleteAll();
+    void saveAll(List<ToDo> toDoList);
 }

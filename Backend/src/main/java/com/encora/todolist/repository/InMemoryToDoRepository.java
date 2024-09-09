@@ -46,4 +46,15 @@ public class InMemoryToDoRepository implements ToDoRepository{
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public void saveAll(List<ToDo> toDoList) {
+        for (ToDo toDo : toDoList) {
+            save(toDo);
+        }
+    }
+
+    @Override
+    public void deleteAll() {
+        toDoStore.clear();
+    }
 }
