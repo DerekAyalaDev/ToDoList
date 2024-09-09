@@ -61,14 +61,14 @@ public class ToDoService {
     }
     
     public ResponseEntity<List<ToDo>> searchToDos(SearchDTO dto) {
-        Specification<ToDo> specification = Specification
-            .where(textIsLike(dto.getText()))
-            .and(priorityIs(dto.getPriority()))
-            .and(doneIs(dto.getState()));
+        Specification<ToDo> specification = Specification.where(null);
+        if (dto == null) {
+            specification = specification.and(textIsLike(dto.getText()).and(priorityIs(dto.getPriority()).and(doneIs(dto.getState()))));
+        }
         List<ToDo> tds = toDoRepository.findAll(specification);
         return new ResponseEntity<>(tds, HttpStatus.OK);
     }
-    
+        
     private ToDo findById(Long id) {
         Optional<ToDo> optional = toDoRepository.findById(id);
         if (optional.isEmpty()) {
@@ -110,7 +110,7 @@ public class ToDoService {
     }
     
     private void handleText(ToDo td, String text) {
-        if (text == null || text.isBlank()) {
+        if (text != null || !text.isBlank()) {
             td.setText(text);
         }
     }
