@@ -39,4 +39,12 @@ public class TestDataFactory {
         toDo.setDone(done);
         return toDo;
     }
+
+    public static SearchDTO createSearchDTO(String text, String priority, String done) {
+        SearchDTO searchDTO = new SearchDTO();
+        searchDTO.setText(text);
+        searchDTO.setPriority(priority);
+        searchDTO.setState(done);
+        return searchDTO;
+    }
 }
