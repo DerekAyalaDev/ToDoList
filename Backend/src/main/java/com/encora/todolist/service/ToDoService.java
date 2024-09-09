@@ -4,7 +4,6 @@ import com.encora.todolist.dto.SearchDTO;
 import com.encora.todolist.dto.ToDoDTO;
 import com.encora.todolist.model.ToDo;
 import com.encora.todolist.repository.ToDoRepository;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -20,8 +19,8 @@ public class ToDoService {
     
     public ResponseEntity<String> createToDo(ToDoDTO dto) {
         ToDo td = new ToDo();
-        handleText(td, dto.getText());
-        handleDueDate(td, dto.getDueDate());
+        td.setText(dto.getText());
+        td.setDueDate(dto.getDueDate());
         td.setDone(false);
         td.setCreationDate(LocalDateTime.now());
         td.setPriority(dto.getPriority());
@@ -50,19 +49,15 @@ public class ToDoService {
     
     public ResponseEntity<String> updateToDo(Long id, ToDoDTO dto) {
         ToDo td = findById(id);
-        handleText(td, dto.getText());
-        handleDueDate(td, dto.getDueDate());
+        td.setText(dto.getText());
+        td.setDueDate(dto.getDueDate());
         td.setPriority(dto.getPriority());
         toDoRepository.save(td);
         return new ResponseEntity<>("To Do updated succesfully", HttpStatus.OK);
     }
 
     public ResponseEntity<List<ToDo>> searchToDos(SearchDTO dto) {
-        Specification<ToDo> specification = Specification.where(null);
-        if (dto == null) {
-            specification = specification.and(textIsLike(dto.getText()).and(priorityIs(dto.getPriority()).and(doneIs(dto.getState()))));
-        }
-        List<ToDo> tds = toDoRepository.findAll(specification);
+        List<ToDo> tds = toDoRepository.findByCriteria(dto);
         return new ResponseEntity<>(tds, HttpStatus.OK);
     }
         
@@ -72,17 +67,5 @@ public class ToDoService {
             
         }
         return optional.get();
-    }
-    
-    private void handleText(ToDo td, String text) {
-        if (text != null || !text.isBlank()) {
-            td.setText(text);
-        }
-    }
-    
-    private void handleDueDate(ToDo td, LocalDate dueDate) {
-        if(dueDate.isAfter(td.getDueDate())){           
-            td.setDueDate(dueDate);
-        }
     }
 }
