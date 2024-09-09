@@ -64,6 +64,15 @@ public class ToDoService {
         return new ResponseEntity<>(tds, HttpStatus.OK);
     }
 
+    public ResponseEntity<MetricsDTO> getMetrics() {
+        MetricsDTO dto = new MetricsDTO();
+        dto.setAverageTime(getAverageTimeForPriority(""));
+        dto.setLowTime(getAverageTimeForPriority("Low"));
+        dto.setMediumTime(getAverageTimeForPriority("Medium"));
+        dto.setHighTime(getAverageTimeForPriority("High"));
+        return new ResponseEntity<>(dto, HttpStatus.OK);
+    }
+
     public ToDo findById(Long id) {
         return toDoRepository.findById(id)
                 .orElseThrow(() -> new ToDoNotFoundException(id));
