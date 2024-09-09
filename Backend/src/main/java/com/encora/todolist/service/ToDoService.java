@@ -1,10 +1,13 @@
 package com.encora.todolist.service;
 
+import com.encora.todolist.dto.MetricsDTO;
 import com.encora.todolist.dto.SearchDTO;
 import com.encora.todolist.dto.ToDoDTO;
 import com.encora.todolist.exception.ToDoNotFoundException;
 import com.encora.todolist.model.ToDo;
 import com.encora.todolist.repository.ToDoRepository;
+
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -64,5 +67,27 @@ public class ToDoService {
     public ToDo findById(Long id) {
         return toDoRepository.findById(id)
                 .orElseThrow(() -> new ToDoNotFoundException(id));
+    }
+
+    private String getAverageTimeForPriority(String priority){
+        List<ToDo> tds = toDoRepository.findByCriteria(new SearchDTO(null, priority, "true"));
+        return averageTime(tds);
+    }
+    
+    private String averageTime(List<ToDo> tds) {
+        if (tds == null || tds.isEmpty()) {
+            return "00:00:00";
+        }
+        long sumSeconds = 0L;
+        int size = tds.size();
+        for(ToDo td: tds) {
+            Duration duration = Duration.between(td.getCreationDate(), td.getDoneDate());
+            sumSeconds += duration.toSeconds();
+        }
+        long averageSeconds = sumSeconds / size;
+        long hours = averageSeconds / 3600;
+        long minutes = (averageSeconds % 3600) / 60;
+        long seconds = averageSeconds % 60;
+        return String.format("%02d:%02d:%02d", hours, minutes, seconds);
     }
 }
