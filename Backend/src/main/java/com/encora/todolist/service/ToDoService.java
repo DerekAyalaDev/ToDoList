@@ -25,13 +25,13 @@ public class ToDoService {
         td.setCreationDate(LocalDateTime.now());
         td.setPriority(dto.getPriority());
         toDoRepository.save(td);
-        return new ResponseEntity<>("To Do created succesfully", HttpStatus.CREATED);
+        return new ResponseEntity<>("To Do created successfully", HttpStatus.CREATED);
     }
     
     public ResponseEntity<String> deleteToDo(Long id) {
         ToDo td = findById(id);
         toDoRepository.delete(td);
-        return new ResponseEntity<>("To Do deleted succesfully", HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>("To Do deleted successfully", HttpStatus.NO_CONTENT);
     }
     
     public ResponseEntity<String> updateDone(Long id) {
@@ -53,7 +53,7 @@ public class ToDoService {
         td.setDueDate(dto.getDueDate());
         td.setPriority(dto.getPriority());
         toDoRepository.save(td);
-        return new ResponseEntity<>("To Do updated succesfully", HttpStatus.OK);
+        return new ResponseEntity<>("To Do updated successfully", HttpStatus.OK);
     }
 
     public ResponseEntity<List<ToDo>> searchToDos(SearchDTO dto) {
@@ -61,7 +61,7 @@ public class ToDoService {
         return new ResponseEntity<>(tds, HttpStatus.OK);
     }
 
-    private ToDo findById(Long id) {
+    public ToDo findById(Long id) {
         return toDoRepository.findById(id)
                 .orElseThrow(() -> new ToDoNotFoundException(id));
     }
