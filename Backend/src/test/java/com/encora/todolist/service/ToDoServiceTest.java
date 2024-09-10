@@ -1,5 +1,6 @@
 package com.encora.todolist.service;
 
+import com.encora.todolist.dto.MetricsDTO;
 import com.encora.todolist.dto.ToDoDTO;
 import com.encora.todolist.exception.ToDoNotFoundException;
 import com.encora.todolist.model.ToDo;
@@ -115,5 +116,19 @@ public class ToDoServiceTest {
         assertNotNull(result);
         assertEquals(50, result.size());
         verify(toDoRepository, times(1)).findByCriteria(any());
+    }
+
+    @Test
+    public void testGetMetrics() {
+        List<ToDo> todos = TestDataFactory.createToDosWithPredefinedTimes();
+
+        when(toDoRepository.findByCriteria(any())).thenReturn(todos);
+
+        ResponseEntity<MetricsDTO> response = toDoService.getMetrics();
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        MetricsDTO metrics = response.getBody();
+        assertEquals("01:30:00", metrics.getLowTime());
+        assertEquals("03:30:00", metrics.getMediumTime());
+        assertEquals("04:30:00", metrics.getHighTime());
     }
 }
