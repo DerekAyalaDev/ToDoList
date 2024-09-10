@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 public class ToDoController {
     private final ToDoService tds;
     
-    @GetMapping("/")
+    @GetMapping
     public ResponseEntity<List<ToDo>> getToDos(@Valid @RequestBody SearchDTO dto) {
         return tds.searchToDos(dto);
     }
@@ -28,7 +28,7 @@ public class ToDoController {
         return tds.getMetrics();
     }
 
-    @PostMapping("/")
+    @PostMapping
     public ResponseEntity<String> createToDo(@Valid @RequestBody ToDoDTO dto) {
         return tds.createToDo(dto);
     }
