@@ -47,4 +47,52 @@ public class TestDataFactory {
         searchDTO.setState(done);
         return searchDTO;
     }
+
+    public static List<ToDo> createToDosWithPredefinedTimes() {
+        List<ToDo> toDoList = new ArrayList<>();
+
+        ToDo low1 = new ToDo();
+        low1.setCreationDate(LocalDateTime.of(2024, 9, 8, 10, 0));
+        low1.setDoneDate(LocalDateTime.of(2024, 9, 8, 12, 0));
+        low1.setPriority("Low");
+        low1.setDone(true);
+        toDoList.add(low1);
+
+        ToDo low2 = new ToDo();
+        low2.setCreationDate(LocalDateTime.of(2024, 9, 9, 10, 0));
+        low2.setDoneDate(LocalDateTime.of(2024, 9, 9, 11, 0));
+        low2.setPriority("Low");
+        low2.setDone(true);
+        toDoList.add(low2);
+
+        ToDo medium1 = new ToDo();
+        medium1.setCreationDate(LocalDateTime.of(2024, 9, 8, 10, 0));
+        medium1.setDoneDate(LocalDateTime.of(2024, 9, 8, 14, 0));
+        medium1.setPriority("Medium");
+        medium1.setDone(true);
+        toDoList.add(medium1);
+
+        ToDo medium2 = new ToDo();
+        medium2.setCreationDate(LocalDateTime.of(2024, 9, 9, 10, 0));
+        medium2.setDoneDate(LocalDateTime.of(2024, 9, 9, 13, 0));
+        medium2.setPriority("Medium");
+        medium2.setDone(true);
+        toDoList.add(medium2);
+
+        ToDo high1 = new ToDo();
+        high1.setCreationDate(LocalDateTime.of(2024, 9, 8, 10, 0));
+        high1.setDoneDate(LocalDateTime.of(2024, 9, 8, 15, 0));
+        high1.setPriority("High");
+        high1.setDone(true);
+        toDoList.add(high1);
+
+        ToDo high2 = new ToDo();
+        high2.setCreationDate(LocalDateTime.of(2024, 9, 9, 10, 0));
+        high2.setDoneDate(LocalDateTime.of(2024, 9, 9, 14, 0));
+        high2.setPriority("High");
+        high2.setDone(true);
+        toDoList.add(high2);
+
+        return toDoList;
+    }
 }
