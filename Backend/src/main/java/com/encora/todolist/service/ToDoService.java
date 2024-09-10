@@ -66,21 +66,17 @@ public class ToDoService {
 
     public ResponseEntity<MetricsDTO> getMetrics() {
         MetricsDTO dto = new MetricsDTO();
-        dto.setAverageTime(getAverageTimeForPriority(""));
-        dto.setLowTime(getAverageTimeForPriority("Low"));
-        dto.setMediumTime(getAverageTimeForPriority("Medium"));
-        dto.setHighTime(getAverageTimeForPriority("High"));
+        List<ToDo> tds = toDoRepository.findByCriteria(new SearchDTO(null, "", "true"));
+        dto.setAverageTime(averageTime(tds));
+        dto.setLowTime(averageTime(tds.stream().filter(td -> "Low".equals(td.getPriority())).toList()));
+        dto.setMediumTime(averageTime(tds.stream().filter(td -> "Medium".equals(td.getPriority())).toList()));
+        dto.setHighTime(averageTime(tds.stream().filter(td -> "High".equals(td.getPriority())).toList()));
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
     public ToDo findById(Long id) {
         return toDoRepository.findById(id)
                 .orElseThrow(() -> new ToDoNotFoundException(id));
-    }
-
-    private String getAverageTimeForPriority(String priority){
-        List<ToDo> tds = toDoRepository.findByCriteria(new SearchDTO(null, priority, "true"));
-        return averageTime(tds);
     }
     
     private String averageTime(List<ToDo> tds) {
