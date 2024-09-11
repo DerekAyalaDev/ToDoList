@@ -1,0 +1,18 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin: 40px auto 0 auto;
+  width: 80%;
+  max-width: 800px;
+  border: 2px solid black;
+  gap: 20px;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.row-button {
+  display: flex;
+  justify-content: space-between;
+}
