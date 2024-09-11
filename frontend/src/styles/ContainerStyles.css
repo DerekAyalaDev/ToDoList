@@ -6,16 +6,27 @@
   margin: 40px auto 0 auto;
   width: 80%;
   max-width: 800px;
-  border: 2px solid black;
   gap: 20px;
   padding: 20px;
   box-sizing: border-box;
 }
 
+.container-border {
+  border-width: 2px;
+  border-color: black;
+}
+
+.border-solid {
+  border-style: solid;
+}
+
+.border-dotted {
+  border-style: dotted;
+}
+
 .container-item {
   display: flex;
   flex-direction: column;
-  border: 2px dotted black;
   border-radius: 5px;
   width: 90%;
   padding: 20px;
