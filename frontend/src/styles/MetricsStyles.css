@@ -1,0 +1,26 @@
+p, h4 {
+  margin: 0;
+}
+
+h4 {
+  text-align: center;
+}
+
+p {
+  font-weight: 500;
+}
+
+.tittle {
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.metrics-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+span {
+  font-weight: 400;
+}
