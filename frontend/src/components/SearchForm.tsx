@@ -14,7 +14,7 @@ export const SearchForm = () => {
     { value: "false", label: "Undone" },
   ];
   return (
-    <form className="container-item ">
+    <div className="container-item container-border border-dotted">
       <div className="container-field">
         <label htmlFor="name">Name</label>
         <input className="form-input" type="text" id="name" />
