@@ -11,6 +11,12 @@ label,
   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif
 }
 
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
 .form-input,
 .form-select,
 .form-btn {
@@ -23,18 +29,31 @@ label,
 }
 
 .form-btn {
-  background-color: #045d2d;
-  color: white;
   border: none;
   cursor: pointer;
   padding: 10px 20px;
+  color: white;
+  font-weight: 500;
+}
+
+.background-green {
+  background-color: #045d2d;
+}
+
+.background-red {
+  background-color: #c72002;
 }
 
 .row-button {
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
-.form-btn:hover {
+.background-green:hover {
   background-color: #144b2e;
+}
+
+.background-red:hover {
+  background-color: #921702;
 }
