@@ -1,4 +1,4 @@
-import { SearchSelectProps } from "../types/SearchSelectTypes"
+import { SearchSelectProps } from "../types/searchSelectProps.types"
 
 export const SearchSelect = (props: SearchSelectProps) => {
   return (

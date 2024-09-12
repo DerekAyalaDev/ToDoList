@@ -1,4 +1,4 @@
-import { ModalProps } from "../types/ModalTypes";
+import { ModalProps } from "../types/modalProps.types";
 
 export const Modal = (props: ModalProps) => {
   if (!props.isOpen) return null;

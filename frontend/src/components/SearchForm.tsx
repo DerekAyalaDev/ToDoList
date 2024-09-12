@@ -1,4 +1,3 @@
-import { SearchSelect } from "./SearchSelect";
 import { CustomForm } from "./CustomForm";
 export const SearchForm = () => {
   const priorityOptions = [

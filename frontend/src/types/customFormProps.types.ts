@@ -1,4 +1,4 @@
-import { Option } from "./SearchSelectTypes"
+import { Option } from "./searchSelectProps.types"
 
 export type CustomFormProps = {
   btnLabel: string,

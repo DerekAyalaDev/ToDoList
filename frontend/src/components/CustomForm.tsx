@@ -1,5 +1,5 @@
 import { SearchSelect } from "./SearchSelect";
-import { CustomFormProps } from "../types/CustomFormTypes";
+import { CustomFormProps } from "../types/customFormProps.types";
 
 export const CustomForm = (props: CustomFormProps) => {
   return (
