@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { ToDoForm } from './ToDoForm';
 import { Modal } from './Modal';
+import { priorityOptions, stateOptions } from '../utils/options';
+import { CustomForm } from './CustomForm';
 
 export const CreateModal = () => {
   const [isCreateModalOpen, setCreateModalOpen] = useState(false);
@@ -12,7 +13,7 @@ export const CreateModal = () => {
         <button onClick={openCreateModal} className='form-btn background-green'>Create</button>
       </div>
       <Modal isOpen={isCreateModalOpen} onClose={closeCreateModal}>
-        <ToDoForm />
+        <CustomForm btnLabel='Create' priorityOptions={priorityOptions.slice(1)} stateOptions={stateOptions.slice(1)} includeDate />
       </Modal>
     </div>
   )

@@ -1,17 +1,7 @@
 import { CustomForm } from "./CustomForm";
-export const SearchForm = () => {
-  const priorityOptions = [
-    { value: "", label: "All" },
-    { value: "Low", label: "Low" },
-    { value: "Medium", label: "Medium" },
-    { value: "High", label: "High" },
-  ];
+import { priorityOptions, stateOptions } from "../utils/options";
 
-  const stateOptions = [
-    { value: "", label: "All" },
-    { value: "true", label: "Done" },
-    { value: "false", label: "Undone" },
-  ];
+export const SearchForm = () => {
   return (
     <div className="container-item padding-vertical-20 container-border border-dotted">
       <CustomForm btnLabel="Search" priorityOptions={priorityOptions} stateOptions={stateOptions} />
