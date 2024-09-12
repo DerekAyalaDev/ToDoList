@@ -1,6 +1,6 @@
 export const Metrics = () => {
   return (
-    <div className="container-item container-border border-dotted">
+    <div className="container-item container-border border-dotted padding-vertical-20">
       <h4>Average time to finish tasks</h4>
       <div className="grid-two-column">
         <div className="metrics-container">

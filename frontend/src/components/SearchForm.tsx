@@ -13,7 +13,7 @@ export const SearchForm = () => {
     { value: "false", label: "Undone" },
   ];
   return (
-    <div className="container-item container-border border-dotted">
+    <div className="container-item padding-vertical-20 container-border border-dotted">
       <CustomForm btnLabel="Search" priorityOptions={priorityOptions} stateOptions={stateOptions} />
     </div>
   );

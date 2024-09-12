@@ -7,7 +7,7 @@ export const CreateModal = () => {
   const openCreateModal = () => setCreateModalOpen(true);
   const closeCreateModal = () => setCreateModalOpen(false);
   return (
-    <div className='container-item padding-vertical-0'>
+    <div className='container-item'>
       <div>
         <button onClick={openCreateModal} className='form-btn background-green'>Create</button>
       </div>
