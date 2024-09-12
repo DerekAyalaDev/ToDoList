@@ -24,6 +24,11 @@
   border-style: dotted;
 }
 
+.padding-vertical-0 {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
 .container-item {
   display: flex;
   flex-direction: column;
