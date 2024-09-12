@@ -12,6 +12,6 @@ export const ToDoForm = () => {
     { value: "false", label: "Undone" },
   ];
   return (
-    <CustomForm btnLabel="Create" priorityOptions={priorityOptions} stateOptions={stateOptions} />
+    <CustomForm btnLabel="Create" priorityOptions={priorityOptions} stateOptions={stateOptions} includeDate/>
   )
 }

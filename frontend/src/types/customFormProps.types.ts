@@ -4,5 +4,6 @@ export type CustomFormProps = {
   btnLabel: string,
   btnOnClick?: () => void,
   priorityOptions: Option[],
-  stateOptions: Option[]
+  stateOptions: Option[],
+  includeDate?: boolean,
 }
