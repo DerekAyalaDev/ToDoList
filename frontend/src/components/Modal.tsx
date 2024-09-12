@@ -1,11 +1,11 @@
 import { ModalProps } from "../types/modalProps.types";
 
-export const Modal = (props: ModalProps) => {
-  if (!props.isOpen) return null;
+export const Modal: React.FC<ModalProps> = ({children, isOpen, onClose}) => {
+  if (!isOpen) return null;
 
   const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     if (e.target === e.currentTarget) {
-      props.onClose();
+      onClose();
     }
   }
 
@@ -15,9 +15,9 @@ export const Modal = (props: ModalProps) => {
         <div className="container-item container-border border-dotted">
           <div className="row-button">
             <h2>Create To Do</h2>
-            <button className="form-btn background-red" onClick={props.onClose}>Close</button>
+            <button className="form-btn background-red" onClick={onClose}>Close</button>
           </div>
-          {props.children}
+          {children}
         </div>
       </div>
     </div>
