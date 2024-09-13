@@ -6,6 +6,7 @@ import com.encora.todolist.dto.ToDoDTO;
 import com.encora.todolist.model.ToDo;
 import com.encora.todolist.service.ToDoService;
 import java.util.List;
+import java.util.Map;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -46,5 +47,10 @@ public class ToDoController {
     @PutMapping("/{id}/status")
     public ResponseEntity<String> updateToDoStatus(@PathVariable("id") Long id) {
         return tds.updateDone(id);
+    }
+
+    @GetMapping("/pages")
+    public ResponseEntity<Map<String, Integer>> getTotalPages(@RequestBody SearchDTO searchDTO) {
+        return tds.getTotalPages(searchDTO);
     }
 }
