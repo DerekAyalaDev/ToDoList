@@ -1,6 +1,6 @@
 import { ModalProps } from "../types/modalProps.types";
 
-export const Modal: React.FC<ModalProps> = ({children, isOpen, onClose}) => {
+export const Modal: React.FC<ModalProps> = ({ label, children, isOpen, onClose}) => {
   if (!isOpen) return null;
 
   const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
@@ -14,7 +14,7 @@ export const Modal: React.FC<ModalProps> = ({children, isOpen, onClose}) => {
       <div className="modal-content">
         <div className="container-item padding-vertical-20 container-border border-dotted">
           <div className="row-button">
-            <h2>Create To Do</h2>
+            <h2>{label} To Do</h2>
             <button className="form-btn background-red" onClick={onClose}>Close</button>
           </div>
           {children}

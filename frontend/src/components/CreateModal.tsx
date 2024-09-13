@@ -12,7 +12,7 @@ export const CreateModal = () => {
       <div>
         <button onClick={openCreateModal} className='form-btn background-green'>Create</button>
       </div>
-      <Modal isOpen={isCreateModalOpen} onClose={closeCreateModal}>
+      <Modal label='Create' isOpen={isCreateModalOpen} onClose={closeCreateModal}>
         <CustomForm btnLabel='Create' priorityOptions={priorityOptions.slice(1)} stateOptions={stateOptions.slice(1)} includeDate />
       </Modal>
     </div>
