@@ -6,5 +6,7 @@ export type Option = {
 export type SearchSelectProps = {
   id: string,
   label: string,
-  options: Option[]
+  options: Option[] | undefined,
+  value: string | undefined,
+  onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
 }
