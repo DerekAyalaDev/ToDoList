@@ -8,10 +8,10 @@ export const getDueDateColor = (dueDate: string | null) => {
   const daysRemaining = dueDateObj.diff(today, 'day');
 
   if(daysRemaining <= 7) {
-    return 'red';
+    return '#ff6d6d';
   } else if(daysRemaining <= 14) {
-    return 'orange';
+    return '#ffd879';
   } else {
-    return 'green';
+    return '#a6ffb3';
   }
 };
