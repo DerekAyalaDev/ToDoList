@@ -9,7 +9,9 @@ import com.encora.todolist.repository.ToDoRepository;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +21,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class ToDoService {
     private final ToDoRepository toDoRepository;
+    private final Integer pageSize = 10;
     
     public ResponseEntity<String> createToDo(ToDoDTO dto) {
         ToDo td = new ToDo();
@@ -153,4 +156,10 @@ public class ToDoService {
         long seconds = averageSeconds % 60;
         return String.format("%02d:%02d:%02d", hours, minutes, seconds);
     }
+
+    private static final Map<String, Integer> PRIORITY_MAP = Map.of(
+            "Low", 1,
+            "Medium", 2,
+            "High", 3
+    );
 }
