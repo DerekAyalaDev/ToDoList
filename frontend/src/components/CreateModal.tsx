@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Modal } from './Modal';
-import { priorityOptions, stateOptions } from '../utils/options';
+import { priorityOptions } from '../utils/options';
 import { CustomForm } from './CustomForm';
 
 export const CreateModal = () => {
@@ -13,7 +13,7 @@ export const CreateModal = () => {
         <button onClick={openCreateModal} className='form-btn background-green'>Create</button>
       </div>
       <Modal label='Create' isOpen={isCreateModalOpen} onClose={closeCreateModal}>
-        <CustomForm btnLabel='Create' priorityOptions={priorityOptions.slice(1)} stateOptions={stateOptions.slice(1)} includeDate />
+        <CustomForm btnLabel='Create' priorityOptions={priorityOptions.slice(1)} includeDate />
       </Modal>
     </div>
   )
