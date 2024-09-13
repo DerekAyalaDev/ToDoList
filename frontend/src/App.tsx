@@ -8,6 +8,7 @@ import './styles/ContainerStyles.css';
 import './styles/FormStyles.css';
 import './styles/MetricsStyles.css';
 import './styles/ModalStyles.css';
+import './styles/TableStyles.css';
 
 const todos = [
   { id: 1, name: 'Task 1', priority: 'Low', dueDate: '2024-09-20', done: true },
