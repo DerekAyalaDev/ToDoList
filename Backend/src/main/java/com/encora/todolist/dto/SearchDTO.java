@@ -13,4 +13,9 @@ public class SearchDTO {
     private String text;
     private String priority;
     private String state;
+
+    private String sortByPriority = "";
+    private String sortByDueDate = "";
+
+    private int pageNumber = 0;
 }
