@@ -1,7 +1,7 @@
 import React from "react";
-import { SearchSelectProps } from "../types/searchSelectProps.types";
+import { selectInputProps } from "../types/selectInputProps.types";
 
-export const SearchSelect: React.FC<SearchSelectProps> = ({
+export const SelectInput: React.FC<selectInputProps> = ({
   id,
   label,
   options,

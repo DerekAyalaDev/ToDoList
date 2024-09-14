@@ -1,4 +1,4 @@
-import { Option } from "./searchSelectProps.types"
+import { Option } from "./selectInputProps.types"
 import { ToDo } from "./toDoTableProps.type"
 export type CustomFormProps = {
   btnLabel: string,

@@ -1,4 +1,4 @@
-import { SearchSelect } from "./SearchSelect";
+import { SelectInput } from "./SelectInput";
 import { CustomFormProps } from "../types/customFormProps.types";
 import { DateInput } from "./DateInput";
 import { useEffect, useState } from "react";
@@ -35,7 +35,7 @@ export const CustomForm = ({
           onChange={(e) => setName(e.target.value)}
         />
       </div>
-      <SearchSelect
+      <SelectInput
         id="priority"
         label="Priority"
         options={priorityOptions}
@@ -46,7 +46,7 @@ export const CustomForm = ({
         {includeDate ? (
           <DateInput id="dueDate" label="Due Date" value={dueDate} onChange={(e) => setDueDate(e.target.value)}/>
         ) : (
-          <SearchSelect id="state" label="State" options={stateOptions} value={state} onChange={(e) => setState(e.target.value)}/>
+          <SelectInput id="state" label="State" options={stateOptions} value={state} onChange={(e) => setState(e.target.value)}/>
         )}
         <button className="form-btn background-green" type="submit">
           {btnLabel}
