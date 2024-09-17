@@ -38,6 +38,10 @@ export const Metrics = () => {
       });
   }, []);
 
+  if (error) {
+    return <div className="container-item container-border border-dotted padding-vertical-20">Error: {error}</div>;
+  }
+
   return (
     <div className="container-item container-border border-dotted padding-vertical-20">
       <h4>Average time to finish tasks</h4>
