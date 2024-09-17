@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Modal } from './Modal';
-import { priorityOptions, stateOptions } from '../utils/options';
+import { priorityOptions } from '../utils/options';
 import { CustomForm } from './CustomForm';
 import BorderColorIcon from "@mui/icons-material/BorderColor";
 import { EditModalProps } from '../types/EditModalProps.types';
