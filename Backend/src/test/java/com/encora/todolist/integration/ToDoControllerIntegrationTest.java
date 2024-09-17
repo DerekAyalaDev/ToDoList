@@ -133,6 +133,8 @@ public class ToDoControllerIntegrationTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.lowTime",is("01:30:00")))
                 .andExpect(jsonPath("$.mediumTime",is("03:30:00")))
-                .andExpect(jsonPath("$.highTime",is("04:30:00")));
+                .andExpect(jsonPath("$.highTime",is("04:30:00")))
+                .andExpect(jsonPath("$.averageTime",is("03:10:00")));
+
     }
 }
