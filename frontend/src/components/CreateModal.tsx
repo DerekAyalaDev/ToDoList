@@ -5,8 +5,10 @@ import { CustomForm } from "./CustomForm";
 
 export const CreateModal = () => {
   const [isCreateModalOpen, setCreateModalOpen] = useState(false);
-  // Abrir y cerrar modal
-  const openCreateModal = () => setCreateModalOpen(true);
+  const openCreateModal = () => {
+    setCreateModalOpen(true);
+    setErrors(null);
+  };
   const closeCreateModal = () => setCreateModalOpen(false);
   const [errors, setErrors] = useState<{ [key: string]: string } | null>(null);
 
