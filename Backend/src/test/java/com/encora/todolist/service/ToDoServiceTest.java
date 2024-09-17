@@ -111,10 +111,10 @@ public class ToDoServiceTest {
         List<ToDo> toDoList = TestDataFactory.createToDoList(50);
         when(toDoRepository.findByCriteria(any())).thenReturn(toDoList);
 
-        List<ToDo> result = toDoService.searchToDos(null).getBody();
+        List<ToDo> result = toDoService.searchToDos(TestDataFactory.createSearchDTO("","","")).getBody();
 
         assertNotNull(result);
-        assertEquals(50, result.size());
+        assertEquals(10, result.size());
         verify(toDoRepository, times(1)).findByCriteria(any());
     }
 

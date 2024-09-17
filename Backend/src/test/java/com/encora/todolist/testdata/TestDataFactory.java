@@ -45,6 +45,9 @@ public class TestDataFactory {
         searchDTO.setText(text);
         searchDTO.setPriority(priority);
         searchDTO.setState(done);
+        searchDTO.setSortByPriority("");
+        searchDTO.setSortByDueDate("");
+        searchDTO.setPageNumber(0);
         return searchDTO;
     }
 

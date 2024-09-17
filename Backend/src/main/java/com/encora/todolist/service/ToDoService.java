@@ -9,7 +9,9 @@ import com.encora.todolist.repository.ToDoRepository;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +21,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class ToDoService {
     private final ToDoRepository toDoRepository;
+    private final Integer pageSize = 10;
     
     public ResponseEntity<String> createToDo(ToDoDTO dto) {
         ToDo td = new ToDo();
@@ -59,14 +62,72 @@ public class ToDoService {
         return new ResponseEntity<>("To Do updated successfully", HttpStatus.OK);
     }
 
+    public ResponseEntity<Map<String, Integer>> getTotalPages(SearchDTO dto) {
+        int pageSize = 10;
+        List<ToDo> tds = toDoRepository.findByCriteria(dto);
+        int totalPages = (int) Math.ceil((double) tds.size() / pageSize);
+
+        Map<String, Integer> response = new HashMap<>();
+        response.put("totalPages", totalPages);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
     public ResponseEntity<List<ToDo>> searchToDos(SearchDTO dto) {
         List<ToDo> tds = toDoRepository.findByCriteria(dto);
-        return new ResponseEntity<>(tds, HttpStatus.OK);
+        return new ResponseEntity<>(sortToDos(dto, tds), HttpStatus.OK);
+    }
+
+    public List<ToDo> sortToDos(SearchDTO dto, List<ToDo> tds) {
+        if (!dto.getSortByPriority().isEmpty() && !dto.getSortByDueDate().isEmpty()) {
+            tds = tds.stream()
+                    .sorted((td1, td2) -> {
+                        Integer priority1 = PRIORITY_MAP.get(td1.getPriority());
+                        Integer priority2 = PRIORITY_MAP.get(td2.getPriority());
+                        int result = dto.getSortByPriority().equalsIgnoreCase("asc") ?
+                                priority1.compareTo(priority2) : priority2.compareTo(priority1);
+
+                        if (result == 0) {
+                            result = dto.getSortByDueDate().equalsIgnoreCase("asc") ?
+                                    td1.getDueDate().compareTo(td2.getDueDate()) :
+                                    td2.getDueDate().compareTo(td1.getDueDate());
+                        }
+                        return result;
+                    })
+                    .collect(Collectors.toList());
+        }
+
+        else if (!dto.getSortByPriority().isEmpty()) {
+            tds = tds.stream()
+                    .sorted((td1, td2) -> {
+                        Integer priority1 = PRIORITY_MAP.get(td1.getPriority());
+                        Integer priority2 = PRIORITY_MAP.get(td2.getPriority());
+                        return dto.getSortByPriority().equalsIgnoreCase("asc") ?
+                                priority1.compareTo(priority2) : priority2.compareTo(priority1);
+                    })
+                    .collect(Collectors.toList());
+        }
+
+        else if (!dto.getSortByDueDate().isEmpty()) {
+            tds = tds.stream()
+                    .sorted((td1, td2) -> dto.getSortByDueDate().equalsIgnoreCase("asc") ?
+                            td1.getDueDate().compareTo(td2.getDueDate()) :
+                            td2.getDueDate().compareTo(td1.getDueDate()))
+                    .collect(Collectors.toList());
+        }
+
+        int start = dto.getPageNumber() * pageSize;
+        int end = Math.min(start + pageSize, tds.size());
+        if (start > tds.size()) {
+            return new ArrayList<>();
+        }
+
+        return tds.subList(start, end);
     }
 
     public ResponseEntity<MetricsDTO> getMetrics() {
         MetricsDTO dto = new MetricsDTO();
-        List<ToDo> tds = toDoRepository.findByCriteria(new SearchDTO(null, "", "true"));
+        List<ToDo> tds = toDoRepository.findByCriteria(new SearchDTO(null, "", "true", null, null, 0));
         dto.setAverageTime(averageTime(tds));
         dto.setLowTime(averageTime(tds.stream().filter(td -> "Low".equals(td.getPriority())).toList()));
         dto.setMediumTime(averageTime(tds.stream().filter(td -> "Medium".equals(td.getPriority())).toList()));
@@ -95,4 +156,10 @@ public class ToDoService {
         long seconds = averageSeconds % 60;
         return String.format("%02d:%02d:%02d", hours, minutes, seconds);
     }
+
+    private static final Map<String, Integer> PRIORITY_MAP = Map.of(
+            "Low", 1,
+            "Medium", 2,
+            "High", 3
+    );
 }

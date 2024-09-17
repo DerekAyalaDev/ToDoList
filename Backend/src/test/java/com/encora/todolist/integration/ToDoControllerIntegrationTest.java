@@ -46,7 +46,7 @@ public class ToDoControllerIntegrationTest {
     public void testGetAllToDos() throws Exception {
         SearchDTO dto = TestDataFactory.createSearchDTO(null,null,null);
 
-        mockMvc.perform(get("/api/todos/")
+        mockMvc.perform(get("/api/todos")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(dto)))
                 .andExpect(status().isOk())
@@ -62,7 +62,7 @@ public class ToDoControllerIntegrationTest {
         newToDo.setPriority("Low");
         newToDo.setDueDate(null);
 
-        mockMvc.perform(post("/api/todos/")
+        mockMvc.perform(post("/api/todos")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(newToDo)))
                 .andExpect(status().isCreated())
@@ -85,7 +85,7 @@ public class ToDoControllerIntegrationTest {
                 .andExpect(content().string("To Do updated successfully"));
 
         SearchDTO dto = TestDataFactory.createSearchDTO(null,null,null);
-        mockMvc.perform(get("/api/todos/")
+        mockMvc.perform(get("/api/todos")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(dto)))
                 .andExpect(status().isOk())
@@ -103,7 +103,7 @@ public class ToDoControllerIntegrationTest {
 
         SearchDTO dto = TestDataFactory.createSearchDTO(null,null,null);
 
-        mockMvc.perform(get("/api/todos/")
+        mockMvc.perform(get("/api/todos")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(dto)))
                 .andExpect(status().isOk())
@@ -119,7 +119,7 @@ public class ToDoControllerIntegrationTest {
                 .andExpect(status().isNoContent());
 
         SearchDTO dto = TestDataFactory.createSearchDTO(null,null,null);
-        mockMvc.perform(get("/api/todos/")
+        mockMvc.perform(get("/api/todos")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(dto)))
                 .andExpect(status().isOk())

@@ -36,9 +36,6 @@ public class InMemoryToDoRepository implements ToDoRepository{
 
     @Override
     public List<ToDo> findByCriteria(SearchDTO searchDTO) {
-        if (searchDTO == null) {
-            return new ArrayList<>(toDoStore.values());
-        }
         return toDoStore.values().stream()
                 .filter(todo -> searchDTO.getText() == null || searchDTO.getText().isBlank() || todo.getText().contains(searchDTO.getText()))
                 .filter(todo -> searchDTO.getPriority() == null || searchDTO.getPriority().isBlank() || todo.getPriority().equalsIgnoreCase(searchDTO.getPriority()))
