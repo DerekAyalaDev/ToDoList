@@ -1,16 +1,43 @@
-import { TodoTableProps } from "../types/toDoTableProps.type";
-import CheckBoxIcon from "@mui/icons-material/CheckBox";
-import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
-import DeleteIcon from "@mui/icons-material/Delete";
-import { getDueDateColor } from "../utils/getDueDateColor";
-import { Button } from "@mui/material";
-import { EditModal } from "./EditModal";
+import { useSearchContext } from "./SearchContext";
+import { TodoRow, EmptyRow } from "./Row";
 import { SortableButton } from "./SortableButton";
+import { useEffect, useState } from "react";
+import { ToDo } from "../types/toDoTableProps.type";
 
-export const TodoTable = ({ todos }: TodoTableProps) => {
-  const handleSortChange = (field: string, sortOrder: string) => {
-    console.log(`Ordenando por ${field}: ${sortOrder}`);
-    // Aquí puedes manejar la lógica de ordenamiento dependiendo del campo y el orden (asc, desc, o none)
+export const TodoTable = () => {
+  const { searchState, setSearchState } = useSearchContext();
+  const [todos, setTodos] = useState<ToDo[]>([]);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    fetch("http://localhost:9090/api/todos", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(searchState),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Error fetching ToDos");
+        }
+        return response.json();
+      })
+      .then((data: ToDo[]) => {
+        setTodos(data);
+        console.log("ToDos fetched successfully:", data);
+      })
+      .catch((error) => {
+        console.error("Error fetching ToDos:", error);
+        setError(error.message);
+      });
+  }, [searchState]);
+
+  const handleSortChange = (field: string, sortOrder: "" | "asc" | "desc") => {
+    setSearchState((prevState) => ({
+      ...prevState,
+      [field]: sortOrder,
+    }));
   };
 
   const totalItems = 10;
@@ -28,60 +55,31 @@ export const TodoTable = ({ todos }: TodoTableProps) => {
           </div>
           <SortableButton
             label="Priority"
+            sortState={searchState.sortByPriority}
             onSortChange={(sortOrder) =>
-              handleSortChange("priority", sortOrder)
+              handleSortChange("sortByPriority", sortOrder)
             }
           />
           <SortableButton
             label="Due Date"
-            onSortChange={(sortOrder) => handleSortChange("dueDate", sortOrder)}
+            sortState={searchState.sortByDueDate}
+            onSortChange={(sortOrder) =>
+              handleSortChange("sortByDueDate", sortOrder)
+            }
           />
           <div className="table-field table-header padding-vertical-5">
             Actions
           </div>
         </div>
+
+        {/* Renderiza las filas de todos */}
         {todos.map((todo) => (
-          <div className="table-row" key={todo.id}>
-            <div className="table-field">
-              {todo.done ? (
-                <Button>
-                  <CheckBoxIcon style={{ color: "green" }} />
-                </Button>
-              ) : (
-                <Button>
-                  <CheckBoxOutlineBlankIcon />
-                </Button>
-              )}
-            </div>
-            <div className="table-field field-name">{todo.name}</div>
-            <div className="table-field">{todo.priority}</div>
-            <div
-              className="table-field"
-              style={{ backgroundColor: getDueDateColor(todo.dueDate) }}
-            >
-              {todo.dueDate ? todo.dueDate : "-"}
-            </div>
-            <div className="table-field table-actions">
-              <EditModal todo={todo} />
-              <button className="table-button">
-                <DeleteIcon
-                  className="background-red"
-                  style={{ color: "white", width: "100%", height: "90%" }}
-                />
-              </button>
-            </div>
-          </div>
+          <TodoRow key={todo.id} todo={todo} />
         ))}
 
-        {/* Filas vacías */}
+        {/* Renderiza las filas vacías */}
         {Array.from({ length: emptyRowsCount }).map((_, index) => (
-          <div className="table-row" key={`empty-${index}`}>
-            <div className="table-field">-</div>
-            <div className="table-field field-name">-</div>
-            <div className="table-field">-</div>
-            <div className="table-field">-</div>
-            <div className="table-field">-</div>
-          </div>
+          <EmptyRow key={index} keyIndex={index} />
         ))}
       </div>
     </div>
