@@ -5,21 +5,36 @@ import { CustomForm } from "./CustomForm";
 import BorderColorIcon from "@mui/icons-material/BorderColor";
 import { EditModalProps } from "../types/EditModalProps.types";
 
+/**
+ * A modal component that handles the editing of an existing ToDo item.
+ * It opens a form pre-filled with the ToDo data and sends an update request to the backend on submit.
+ *
+ * @param {EditModalProps} props - The props for the EditModal component.
+ * @param {ToDo} props.todo - The ToDo item to be edited.
+ */
 export const EditModal = ({ todo }: EditModalProps) => {
   const [isEditModalOpen, setEditModalOpen] = useState(false);
   const [errors, setErrors] = useState<{ [key: string]: string } | null>(null);
 
+  // Opens the edit modal and resets any previous errors
   const openEditModal = () => {
     setEditModalOpen(true);
     setErrors(null);
   };
+
+  // Closes the edit modal
   const closeEditModal = () => setEditModalOpen(false);
 
-  const handleEditSubmit = (values: {
-    name: string;
-    priority: string;
-    dueDate: string;
-  }) => {
+  /**
+   * Handles the submission of the edit form.
+   * Sends the updated ToDo data to the backend via a PUT request.
+   *
+   * @param {object} values - The updated values from the CustomForm component.
+   * @param {string} values.name - The name of the ToDo task.
+   * @param {string} values.priority - The priority of the ToDo task.
+   * @param {string} values.dueDate - The due date of the ToDo task.
+   */
+  const handleEditSubmit = (values: { name: string; priority: string; dueDate: string }) => {
     const toDoDTO = {
       text: values.name,
       priority: values.priority,
@@ -36,7 +51,7 @@ export const EditModal = ({ todo }: EditModalProps) => {
       .then((response) => {
         if (!response.ok) {
           return response.json().then((errorData) => {
-            setErrors(errorData); // Almacena los errores en el estado
+            setErrors(errorData); // Stores the errors in the state
             throw new Error("Validation failed");
           });
         }
@@ -44,8 +59,8 @@ export const EditModal = ({ todo }: EditModalProps) => {
       })
       .then((data) => {
         console.log("ToDo updated successfully:", data);
-        closeEditModal(); // Cerrar el modal después de actualizar
-        window.location.reload(); // Recargar la página para actualizar la lista
+        closeEditModal(); // Closes the modal after updating
+        window.location.reload(); // Reloads the page to refresh the ToDo list
       })
       .catch((error) => {
         console.error("Error updating ToDo:", error);
@@ -70,7 +85,7 @@ export const EditModal = ({ todo }: EditModalProps) => {
           initialValues={todo}
           onToDoSubmit={handleEditSubmit}
         />
-        {/* Mostrar errores debajo del formulario */}
+        {/* Displays validation errors under the form */}
         {errors && (
           <div className="error-messages">
             {Object.entries(errors).map(([field, errorMessage]) => (
@@ -84,3 +99,4 @@ export const EditModal = ({ todo }: EditModalProps) => {
     </div>
   );
 };
+

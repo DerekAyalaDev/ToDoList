@@ -3,6 +3,14 @@ import { sortableButtonProps } from "../types/sortableButtonProps.types";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 
+/**
+ * SortableButton Component
+ * Renders a button with sorting functionality. Clicking the button toggles the sort order (asc, desc, or none).
+ * 
+ * @param {string} label - The label displayed on the button.
+ * @param {"" | "asc" | "desc"} sortState - The current sort state (ascending, descending, or none).
+ * @param {(sortOrder: "" | "asc" | "desc") => void} onSortChange - Callback to trigger when the sort state changes.
+ */
 export const SortableButton = ({
   label,
   sortState: initialSortState,
@@ -12,10 +20,12 @@ export const SortableButton = ({
     initialSortState
   );
 
+  // Update the local sort state whenever the prop value changes
   useEffect(() => {
     setSortState(initialSortState);
   }, [initialSortState]);
 
+  // Handle the button click and toggle through sorting states: "", "asc", "desc"
   const handleSortClick = () => {
     let newSortState: "" | "asc" | "desc";
     if (sortState === "") {
@@ -26,6 +36,7 @@ export const SortableButton = ({
       newSortState = "";
     }
 
+    // Update local state and notify parent component of the change
     setSortState(newSortState);
     onSortChange(newSortState);
   };

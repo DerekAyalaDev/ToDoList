@@ -3,6 +3,11 @@ import { CustomFormProps } from "../types/customFormProps.types";
 import { DateInput } from "./DateInput";
 import { useEffect, useState } from "react";
 
+/**
+ * CustomForm is a reusable form component used for creating, editing, or searching ToDo items.
+ * It handles form submissions and dynamically includes or excludes the Due Date field based on the `includeDate` flag.
+ * The form can handle both search and create/edit submissions depending on the props passed.
+ */
 export const CustomForm = ({
   btnLabel,
   priorityOptions,
@@ -13,17 +18,13 @@ export const CustomForm = ({
   searchFormValues,
   onToDoSubmit,
 }: CustomFormProps) => {
-  const [name, setName] = useState(
-    initialValues?.text || searchFormValues?.name || ""
-  );
-  const [priority, setPriority] = useState(
-    initialValues?.priority ||
-      searchFormValues?.priority ||
-      priorityOptions[0].value
-  );
+  // Form state variables
+  const [name, setName] = useState(initialValues?.text || searchFormValues?.name || "");
+  const [priority, setPriority] = useState(initialValues?.priority || searchFormValues?.priority || priorityOptions[0].value);
   const [state, setState] = useState(searchFormValues?.state || "");
   const [dueDate, setDueDate] = useState(initialValues?.dueDate || "");
 
+  // Update form fields if initialValues or searchFormValues change
   useEffect(() => {
     if (initialValues) {
       setName(initialValues.text || "");
@@ -36,16 +37,22 @@ export const CustomForm = ({
     }
   }, [initialValues, searchFormValues]);
 
+  /**
+   * Handles form submission.
+   * Determines if the form is used for searching or creating/updating based on the props passed.
+   */
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
     if (onSearchSubmit) {
+      // If the form is used for searching tasks
       onSearchSubmit({
         name,
         priority,
         state,
       });
     } else if (onToDoSubmit) {
+      // If the form is used for creating or updating tasks
       onToDoSubmit({
         name,
         priority,

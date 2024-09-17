@@ -2,9 +2,18 @@ import { CustomForm } from "./CustomForm";
 import { priorityOptions, stateOptions } from "../utils/options";
 import { useSearchContext } from "./SearchContext";
 
+/**
+ * Component that renders a search form for filtering ToDo items.
+ * Updates the global search state when the form is submitted.
+ */
 export const SearchForm = () => {
   const { setSearchState } = useSearchContext();
 
+  /**
+   * Handles the form submission to update the search state.
+   *
+   * @param {object} values - The search form values: name, priority, and state.
+   */
   const handleSearchSubmit = (values: {
     name: string;
     priority: string;

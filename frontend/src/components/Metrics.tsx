@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
 
+/**
+ * Data Transfer Object (DTO) for the metrics response from the backend.
+ */
 interface MetricsDTO {
   averageTime: string;
   lowTime: string;
@@ -7,6 +10,10 @@ interface MetricsDTO {
   highTime: string;
 }
 
+/**
+ * A component that fetches and displays metrics about the ToDo items.
+ * Metrics include the average time to complete tasks and the average time grouped by priority.
+ */
 export const Metrics = () => {
   const [metrics, setMetrics] = useState<MetricsDTO>({
     averageTime: "00:00:00",
@@ -16,6 +23,7 @@ export const Metrics = () => {
   });
   const [error, setError] = useState<string | null>(null);
 
+  // Fetches metrics from the backend when the component mounts
   useEffect(() => {
     fetch("http://localhost:9090/api/todos/metrics", {
       method: "GET",
@@ -39,6 +47,7 @@ export const Metrics = () => {
       });
   }, []);
 
+  // Displays an error message if the fetch fails
   if (error) {
     return (
       <div className="container-item container-border border-dotted padding-vertical-20 error-message">
@@ -74,3 +83,4 @@ export const Metrics = () => {
     </div>
   );
 };
+
