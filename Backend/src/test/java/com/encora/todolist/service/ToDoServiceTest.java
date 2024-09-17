@@ -1,5 +1,6 @@
 package com.encora.todolist.service;
 
+import com.encora.todolist.dto.ListToDoDTO;
 import com.encora.todolist.dto.MetricsDTO;
 import com.encora.todolist.dto.ToDoDTO;
 import com.encora.todolist.exception.ToDoNotFoundException;
@@ -111,10 +112,11 @@ public class ToDoServiceTest {
         List<ToDo> toDoList = TestDataFactory.createToDoList(50);
         when(toDoRepository.findByCriteria(any())).thenReturn(toDoList);
 
-        List<ToDo> result = toDoService.searchToDos(TestDataFactory.createSearchDTO("","","")).getBody();
+        ListToDoDTO result = toDoService.searchToDos(TestDataFactory.createSearchDTO("","","")).getBody();
 
         assertNotNull(result);
-        assertEquals(10, result.size());
+        assertEquals(10, result.getTodos().size());
+        assertEquals(5, result.getTotalPages());
         verify(toDoRepository, times(1)).findByCriteria(any());
     }
 

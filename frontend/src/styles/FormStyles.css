@@ -57,3 +57,8 @@ label,
 .background-red:hover {
   background-color: #921702;
 }
+
+.error-message {
+  color: #921702;
+  font-weight: 700;
+}

@@ -1,5 +1,9 @@
-import { ToDo } from "./toDoTableProps.type"
+import { ToDo } from "./toDoTableProps.type";
 
+// Props for an EditModal component, which handles editing an existing ToDo item
 export type EditModalProps = {
-  todo: ToDo,
-}
+  /**
+   * The ToDo item that is being edited
+   */
+  todo: ToDo;
+};
