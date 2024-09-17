@@ -10,12 +10,20 @@ export const TodoTable = () => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch("http://localhost:9090/api/todos", {
-      method: "POST",
+    const queryParams = new URLSearchParams({
+      text: searchState.text || "",
+      priority: searchState.priority || "",
+      state: searchState.state || "",
+      sortByPriority: searchState.sortByPriority || "",
+      sortByDueDate: searchState.sortByDueDate || "",
+      pageNumber: searchState.pageNumber.toString(),
+    });
+
+    fetch(`http://localhost:9090/api/todos?${queryParams.toString()}`, {
+      method: "GET",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(searchState),
     })
       .then((response) => {
         if (!response.ok) {
@@ -72,12 +80,10 @@ export const TodoTable = () => {
           </div>
         </div>
 
-        {/* Renderiza las filas de todos */}
         {todos.map((todo) => (
           <TodoRow key={todo.id} todo={todo} />
         ))}
 
-        {/* Renderiza las filas vacías */}
         {Array.from({ length: emptyRowsCount }).map((_, index) => (
           <EmptyRow key={index} keyIndex={index} />
         ))}
