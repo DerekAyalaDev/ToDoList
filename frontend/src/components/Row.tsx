@@ -1,13 +1,12 @@
-import { ToDo } from '../types/toDoTableProps.type';
+import { ToDo } from "../types/toDoTableProps.type";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Button } from "@mui/material";
-import { EditModal } from './EditModal';
-import { getDueDateColor } from '../utils/getDueDateColor';
+import { EditModal } from "./EditModal";
+import { getDueDateColor } from "../utils/getDueDateColor";
 
 export const TodoRow = ({ todo }: { todo: ToDo }) => {
-  // Función para actualizar el estado 'done' del ToDo
   const toggleDoneStatus = () => {
     fetch(`http://localhost:9090/api/todos/${todo.id}/status`, {
       method: "PUT",
@@ -28,7 +27,9 @@ export const TodoRow = ({ todo }: { todo: ToDo }) => {
   };
 
   const deleteToDo = () => {
-    const confirmed = window.confirm("Are you sure you want to delete this ToDo?");
+    const confirmed = window.confirm(
+      "Are you sure you want to delete this ToDo?"
+    );
     if (confirmed) {
       fetch(`http://localhost:9090/api/todos/${todo.id}`, {
         method: "DELETE",

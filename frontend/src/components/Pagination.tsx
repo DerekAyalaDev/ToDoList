@@ -1,4 +1,3 @@
-import React, { useState, useEffect } from "react";
 import { useSearchContext } from "./SearchContext";
 
 interface PaginationProps {
@@ -24,7 +23,9 @@ export const Pagination = ({ totalPages }: PaginationProps) => {
         {pagesArray.map((page) => (
           <li
             key={page}
-            className={`pagination-item ${page === currentPage ? "active" : ""}`}
+            className={`pagination-item ${
+              page === currentPage ? "active" : ""
+            }`}
             onClick={() => handlePageChange(page)}
           >
             {page + 1}

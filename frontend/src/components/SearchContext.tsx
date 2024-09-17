@@ -1,20 +1,26 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  ReactNode,
+} from "react";
 
 interface SearchDTO {
   text: string;
   priority: string;
   state: string;
-  sortByPriority: '' | 'asc' | 'desc';
-  sortByDueDate: '' | 'asc' | 'desc';
+  sortByPriority: "" | "asc" | "desc";
+  sortByDueDate: "" | "asc" | "desc";
   pageNumber: number;
 }
 
 const initialSearchState: SearchDTO = {
-  text: '',
-  priority: '',
-  state: '',
-  sortByPriority: '',
-  sortByDueDate: '',
+  text: "",
+  priority: "",
+  state: "",
+  sortByPriority: "",
+  sortByDueDate: "",
   pageNumber: 0,
 };
 
@@ -30,16 +36,14 @@ interface SearchProviderProps {
   children: ReactNode;
 }
 
-export const SearchProvider = ({children} : SearchProviderProps)  => {
+export const SearchProvider = ({ children }: SearchProviderProps) => {
   const [searchState, setSearchState] = useState<SearchDTO>(() => {
-    // Intentamos cargar el estado guardado en el localStorage
-    const savedState = localStorage.getItem('searchState');
+    const savedState = localStorage.getItem("searchState");
     return savedState ? JSON.parse(savedState) : initialSearchState;
   });
 
   useEffect(() => {
-    // Guardamos el estado en el localStorage cada vez que cambie
-    localStorage.setItem('searchState', JSON.stringify(searchState));
+    localStorage.setItem("searchState", JSON.stringify(searchState));
   }, [searchState]);
 
   return (
@@ -48,7 +52,6 @@ export const SearchProvider = ({children} : SearchProviderProps)  => {
     </SearchContext.Provider>
   );
 };
-
 
 export const useSearchContext = () => {
   return useContext(SearchContext);

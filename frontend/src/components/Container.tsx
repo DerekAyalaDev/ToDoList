@@ -1,10 +1,8 @@
-import { ContainerProps } from '../types/containerProps.types'
-import '../styles/ContainerStyles.css'
-import React from 'react'
-export const Container: React.FC<ContainerProps> = ({children}) => {
+import { ContainerProps } from "../types/containerProps.types";
+import "../styles/ContainerStyles.css";
+
+export const Container = ({ children }: ContainerProps) => {
   return (
-    <div className="container container-border border-solid">
-      {children}
-    </div>
-  )
-}
+    <div className="container container-border border-solid">{children}</div>
+  );
+};

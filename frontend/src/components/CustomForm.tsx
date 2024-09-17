@@ -13,11 +13,16 @@ export const CustomForm = ({
   searchFormValues,
   onToDoSubmit,
 }: CustomFormProps) => {
-  const [name, setName] = useState(initialValues?.text || searchFormValues?.name || "");
-  const [priority, setPriority] = useState(initialValues?.priority || searchFormValues?.priority || priorityOptions[0].value);
+  const [name, setName] = useState(
+    initialValues?.text || searchFormValues?.name || ""
+  );
+  const [priority, setPriority] = useState(
+    initialValues?.priority ||
+      searchFormValues?.priority ||
+      priorityOptions[0].value
+  );
   const [state, setState] = useState(searchFormValues?.state || "");
   const [dueDate, setDueDate] = useState(initialValues?.dueDate || "");
-
 
   useEffect(() => {
     if (initialValues) {

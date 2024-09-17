@@ -1,5 +1,5 @@
-import { ToDo } from "./toDoTableProps.type"
+import { ToDo } from "./toDoTableProps.type";
 
 export type EditModalProps = {
-  todo: ToDo,
-}
+  todo: ToDo;
+};

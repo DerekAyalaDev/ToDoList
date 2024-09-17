@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
+
 interface MetricsDTO {
   averageTime: string;
   lowTime: string;
@@ -8,38 +9,42 @@ interface MetricsDTO {
 
 export const Metrics = () => {
   const [metrics, setMetrics] = useState<MetricsDTO>({
-    averageTime: '00:00:00',
-    lowTime: '00:00:00',
-    mediumTime: '00:00:00',
-    highTime: '00:00:00',
+    averageTime: "00:00:00",
+    lowTime: "00:00:00",
+    mediumTime: "00:00:00",
+    highTime: "00:00:00",
   });
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch('http://localhost:9090/api/todos/metrics', {
-      method: 'GET',
+    fetch("http://localhost:9090/api/todos/metrics", {
+      method: "GET",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
     })
       .then((response) => {
         if (!response.ok) {
-          throw new Error('Error fetching metrics');
+          throw new Error("Error fetching metrics");
         }
         return response.json();
       })
       .then((data: MetricsDTO) => {
         setMetrics(data);
-        console.log('Metrics fetched successfully:', data);
+        console.log("Metrics fetched successfully:", data);
       })
       .catch((error) => {
-        console.error('Error fetching metrics:', error);
+        console.error("Error fetching metrics:", error);
         setError(error.message);
       });
   }, []);
 
   if (error) {
-    return <div className="container-item container-border border-dotted padding-vertical-20 error-message">Error: {error}</div>;
+    return (
+      <div className="container-item container-border border-dotted padding-vertical-20 error-message">
+        Error: {error}
+      </div>
+    );
   }
 
   return (

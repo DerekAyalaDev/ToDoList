@@ -92,7 +92,7 @@ export const TodoTable = () => {
           <EmptyRow key={index} keyIndex={index} />
         ))}
       </div>
-      <Pagination totalPages={totalPages}/>
+      <Pagination totalPages={totalPages} />
     </div>
   );
 };
