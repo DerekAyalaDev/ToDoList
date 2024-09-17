@@ -1,40 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useSearchContext } from "./SearchContext";
 
-export const Pagination = () => {
+interface PaginationProps {
+  totalPages: number;
+}
+
+export const Pagination = ({ totalPages }: PaginationProps) => {
   const { searchState, setSearchState } = useSearchContext();
-  const [totalPages, setTotalPages] = useState<number>(1);
   const [pages, setPages] = useState<number[]>([]);
   const currentPage = searchState.pageNumber || 0;
-
-  // Función para obtener el total de páginas del backend
-  const fetchTotalPages = () => {
-    const queryParams = new URLSearchParams({
-      text: searchState.text || "",
-      priority: searchState.priority || "",
-      state: searchState.state || "",
-      sortByPriority: searchState.sortByPriority || "",
-      sortByDueDate: searchState.sortByDueDate || "",
-      pageNumber: searchState.pageNumber.toString(),
-    }).toString();
-
-    fetch(`http://localhost:9090/api/todos/pages?${queryParams}`, {
-      method: "GET",
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Error fetching total pages");
-        }
-        return response.json();
-      })
-      .then((data: { totalPages: number }) => {
-        setTotalPages(data.totalPages);
-        generatePages(data.totalPages); // Generar las páginas cuando se recibe el total
-      })
-      .catch((error) => {
-        console.error("Error fetching total pages:", error);
-      });
-  };
 
   // Función para generar las páginas y centrar la actual
   const generatePages = (total: number) => {
@@ -49,9 +23,10 @@ export const Pagination = () => {
     setPages(pagesArray);
   };
 
+  // Llamar a generatePages cuando totalPages o currentPage cambian
   useEffect(() => {
-    fetchTotalPages(); // Llamar a la API al cargar el componente
-  }, [searchState]); // Se llama cada vez que cambia el searchState
+    generatePages(totalPages);
+  }, [totalPages, currentPage]);
 
   // Función para manejar el cambio de página
   const handlePageChange = (page: number) => {

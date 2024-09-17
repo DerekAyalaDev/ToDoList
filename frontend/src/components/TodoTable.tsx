@@ -8,6 +8,7 @@ import { Pagination } from "./Pagination";
 export const TodoTable = () => {
   const { searchState, setSearchState } = useSearchContext();
   const [todos, setTodos] = useState<ToDo[]>([]);
+  const [totalPages, setTotalPages] = useState(1); // Estado para el total de páginas
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -32,8 +33,9 @@ export const TodoTable = () => {
         }
         return response.json();
       })
-      .then((data: ToDo[]) => {
-        setTodos(data);
+      .then((data: { todos: ToDo[]; totalPages: number }) => {
+        setTodos(data.todos);
+        setTotalPages(data.totalPages);
         console.log("ToDos fetched successfully:", data);
       })
       .catch((error) => {
@@ -90,7 +92,7 @@ export const TodoTable = () => {
           <EmptyRow key={index} keyIndex={index} />
         ))}
       </div>
-      <Pagination />
+      <Pagination totalPages={totalPages}/>
     </div>
   );
 };
