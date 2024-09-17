@@ -16,10 +16,11 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/todos")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:8080")
 public class ToDoController {
     private final ToDoService tds;
     
-    @GetMapping
+    @PostMapping
     public ResponseEntity<List<ToDo>> getToDos(@Valid @RequestBody SearchDTO dto) {
         return tds.searchToDos(dto);
     }
@@ -29,7 +30,7 @@ public class ToDoController {
         return tds.getMetrics();
     }
 
-    @PostMapping
+    @PostMapping("/todo")
     public ResponseEntity<String> createToDo(@Valid @RequestBody ToDoDTO dto) {
         return tds.createToDo(dto);
     }
