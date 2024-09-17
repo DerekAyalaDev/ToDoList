@@ -56,7 +56,7 @@ export const TodoTable = () => {
 
   return (
     <div className="container-item container-border border-dotted padding-vertical-20">
-      {error && <div>Error: {error}</div>}
+      {error && <div className="error-message">Error: {error}</div>}
       <div className="table">
         <div className="table-row">
           <div className="table-field table-header padding-vertical-5">

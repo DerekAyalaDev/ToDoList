@@ -39,7 +39,7 @@ export const Metrics = () => {
   }, []);
 
   if (error) {
-    return <div className="container-item container-border border-dotted padding-vertical-20">Error: {error}</div>;
+    return <div className="container-item container-border border-dotted padding-vertical-20 error-message">Error: {error}</div>;
   }
 
   return (
