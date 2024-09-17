@@ -19,10 +19,18 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin(origins = "http://localhost:8080")
 public class ToDoController {
     private final ToDoService tds;
-    
-    @PostMapping
-    public ResponseEntity<List<ToDo>> getToDos(@Valid @RequestBody SearchDTO dto) {
-        return tds.searchToDos(dto);
+
+    @GetMapping
+    public ResponseEntity<List<ToDo>> getToDos(
+            @RequestParam(value = "text", required = false) String text,
+            @RequestParam(value = "priority", required = false) String priority,
+            @RequestParam(value = "state", required = false) String state,
+            @RequestParam(value = "sortByPriority", defaultValue = "") String sortByPriority,
+            @RequestParam(value = "sortByDueDate", defaultValue = "") String sortByDueDate,
+            @RequestParam(value = "pageNumber") int pageNumber) {
+        SearchDTO searchDTO = new SearchDTO(text, priority, state, sortByPriority, sortByDueDate, pageNumber);
+
+        return tds.searchToDos(searchDTO);
     }
 
     @GetMapping("/metrics")
@@ -30,11 +38,11 @@ public class ToDoController {
         return tds.getMetrics();
     }
 
-    @PostMapping("/todo")
+    @PostMapping
     public ResponseEntity<String> createToDo(@Valid @RequestBody ToDoDTO dto) {
         return tds.createToDo(dto);
     }
-    
+
     @PutMapping("/{id}")
     public ResponseEntity<String> updateToDo(@PathVariable("id") Long id, @Valid @RequestBody ToDoDTO dto) {
         return tds.updateToDo(id, dto);

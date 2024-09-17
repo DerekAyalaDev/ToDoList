@@ -44,11 +44,9 @@ public class ToDoControllerIntegrationTest {
 
     @Test
     public void testGetAllToDos() throws Exception {
-        SearchDTO dto = TestDataFactory.createSearchDTO(null,null,null);
-
         mockMvc.perform(get("/api/todos")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(dto)))
+                        .param("pageNumber", "0")
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.size()", is(10)))
                 .andExpect(jsonPath("$[0].text", containsString("Task")))
@@ -84,10 +82,9 @@ public class ToDoControllerIntegrationTest {
                 .andExpect(status().isOk())
                 .andExpect(content().string("To Do updated successfully"));
 
-        SearchDTO dto = TestDataFactory.createSearchDTO(null,null,null);
         mockMvc.perform(get("/api/todos")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(dto)))
+                        .param("pageNumber", "0")
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].text", is("Updated Task")));
     }
@@ -104,8 +101,8 @@ public class ToDoControllerIntegrationTest {
         SearchDTO dto = TestDataFactory.createSearchDTO(null,null,null);
 
         mockMvc.perform(get("/api/todos")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(dto)))
+                        .param("pageNumber", "0")
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].done").value(!actual));
     }
@@ -118,10 +115,9 @@ public class ToDoControllerIntegrationTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
 
-        SearchDTO dto = TestDataFactory.createSearchDTO(null,null,null);
         mockMvc.perform(get("/api/todos")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(dto)))
+                        .param("pageNumber", "0")
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.size()", is(9)));
     }
