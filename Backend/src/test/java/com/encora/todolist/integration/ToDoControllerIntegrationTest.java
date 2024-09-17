@@ -48,9 +48,10 @@ public class ToDoControllerIntegrationTest {
                         .param("pageNumber", "0")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.size()", is(10)))
-                .andExpect(jsonPath("$[0].text", containsString("Task")))
-                .andExpect(jsonPath("$[0].priority", anyOf(is("High"), is("Medium"), is("Low"))));
+                .andExpect(jsonPath("$.todos.size()", is(10)))
+                .andExpect(jsonPath("$.todos[0].text", containsString("Task")))
+                .andExpect(jsonPath("$.todos[0].priority", anyOf(is("High"), is("Medium"), is("Low"))))
+                .andExpect(jsonPath("$.totalPages", is(1)));
     }
 
     @Test
@@ -86,7 +87,7 @@ public class ToDoControllerIntegrationTest {
                         .param("pageNumber", "0")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].text", is("Updated Task")));
+                .andExpect(jsonPath("$.todos[0].text", is("Updated Task")));
     }
 
     @Test
@@ -104,7 +105,7 @@ public class ToDoControllerIntegrationTest {
                         .param("pageNumber", "0")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].done").value(!actual));
+                .andExpect(jsonPath("$.todos[0].done").value(!actual));
     }
 
     @Test
@@ -119,7 +120,7 @@ public class ToDoControllerIntegrationTest {
                         .param("pageNumber", "0")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.size()", is(9)));
+                .andExpect(jsonPath("$.todos.size()", is(9)));
     }
 
     @Test
