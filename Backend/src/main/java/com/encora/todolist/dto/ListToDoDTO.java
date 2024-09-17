@@ -13,6 +13,11 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ListToDoDTO {
+
+    // List of ToDo items returned from a search or retrieval operation
     private List<ToDo> todos;
+
+    // Total number of pages available for pagination
     private Integer totalPages;
 }
+

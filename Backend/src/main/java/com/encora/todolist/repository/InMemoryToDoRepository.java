@@ -9,10 +9,18 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Repository
-public class InMemoryToDoRepository implements ToDoRepository{
+public class InMemoryToDoRepository implements ToDoRepository {
+
+    // In-memory data store for ToDo items, using a map where the key is the ToDo ID
     private final Map<Long, ToDo> toDoStore = new HashMap<>();
+
+    // Counter to generate unique IDs for ToDo items
     private Long currentId = 1L;
 
+    /**
+     * Constructor initializes the repository with sample ToDo items for testing purposes.
+     * The ToDo items have different priorities ("Low", "Medium", "High") and done dates.
+     */
     public InMemoryToDoRepository() {
         ToDo low1 = new ToDo();
         low1.setId(currentId++);
@@ -32,6 +40,7 @@ public class InMemoryToDoRepository implements ToDoRepository{
         low2.setCreationDate(LocalDateTime.of(2024, 9, 9, 10, 0));
         toDoStore.put(low2.getId(), low2);
 
+        // Similar initialization for medium and high priority tasks
         ToDo medium1 = new ToDo();
         medium1.setId(currentId++);
         medium1.setText("Task 3");
@@ -69,16 +78,33 @@ public class InMemoryToDoRepository implements ToDoRepository{
         toDoStore.put(high2.getId(), high2);
     }
 
+    /**
+     * Retrieves all ToDo items from the in-memory store.
+     *
+     * @return A list of all ToDo items.
+     */
     @Override
     public List<ToDo> findAll() {
         return new ArrayList<>(toDoStore.values());
     }
 
+    /**
+     * Finds a ToDo item by its ID in the in-memory store.
+     *
+     * @param id The ID of the ToDo item to find.
+     * @return An Optional containing the ToDo item if found, or empty if not found.
+     */
     @Override
     public Optional<ToDo> findById(Long id) {
         return Optional.ofNullable(toDoStore.get(id));
     }
 
+    /**
+     * Saves a ToDo item to the in-memory store.
+     * If the item does not have an ID, a new one is generated.
+     *
+     * @param toDo The ToDo item to save.
+     */
     @Override
     public void save(ToDo toDo) {
         if (toDo.getId() == null) {
@@ -87,11 +113,23 @@ public class InMemoryToDoRepository implements ToDoRepository{
         toDoStore.put(toDo.getId(), toDo);
     }
 
+    /**
+     * Deletes a ToDo item from the in-memory store.
+     *
+     * @param toDo The ToDo item to delete.
+     */
     @Override
     public void delete(ToDo toDo) {
         toDoStore.remove(toDo.getId());
     }
 
+    /**
+     * Finds ToDo items based on criteria defined in the SearchDTO.
+     * Filters include text (contains), priority, and state (done/undone).
+     *
+     * @param searchDTO The DTO containing the search filters.
+     * @return A list of ToDo items that match the search criteria.
+     */
     @Override
     public List<ToDo> findByCriteria(SearchDTO searchDTO) {
         return toDoStore.values().stream()
@@ -101,6 +139,11 @@ public class InMemoryToDoRepository implements ToDoRepository{
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Saves a list of ToDo items to the in-memory store.
+     *
+     * @param toDoList The list of ToDo items to save.
+     */
     @Override
     public void saveAll(List<ToDo> toDoList) {
         for (ToDo toDo : toDoList) {
@@ -108,8 +151,12 @@ public class InMemoryToDoRepository implements ToDoRepository{
         }
     }
 
+    /**
+     * Deletes all ToDo items from the in-memory store.
+     */
     @Override
     public void deleteAll() {
         toDoStore.clear();
     }
 }
+
