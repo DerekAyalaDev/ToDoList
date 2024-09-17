@@ -27,6 +27,28 @@ export const TodoRow = ({ todo }: { todo: ToDo }) => {
       });
   };
 
+  const deleteToDo = () => {
+    const confirmed = window.confirm("Are you sure you want to delete this ToDo?");
+    if (confirmed) {
+      fetch(`http://localhost:9090/api/todos/${todo.id}`, {
+        method: "DELETE",
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Error deleting ToDo");
+          }
+          return response.text();
+        })
+        .then((data) => {
+          console.log("ToDo deleted successfully:", data);
+          window.location.reload(); // Recargar la página para actualizar la tabla
+        })
+        .catch((error) => {
+          console.error("Error deleting ToDo:", error);
+        });
+    }
+  };
+
   return (
     <div className="table-row">
       <div className="table-field">
@@ -51,7 +73,7 @@ export const TodoRow = ({ todo }: { todo: ToDo }) => {
       </div>
       <div className="table-field table-actions">
         <EditModal todo={todo} />
-        <button className="table-button">
+        <button className="table-button" onClick={deleteToDo}>
           <DeleteIcon
             className="background-red"
             style={{ color: "white", width: "100%", height: "90%" }}
