@@ -1,8 +1,8 @@
 import daysjs from "dayjs";
 
-export const getDueDateColor = (dueDate: string | null) => {
+export const getDueDateColor = (dueDate: string | null, done: boolean) => {
+  if (done) return "#a6ffb3";
   if (!dueDate) return "";
-
   const today = daysjs();
   const dueDateObj = daysjs(dueDate);
   const daysRemaining = dueDateObj.diff(today, "day");

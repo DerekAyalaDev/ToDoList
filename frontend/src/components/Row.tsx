@@ -68,7 +68,7 @@ export const TodoRow = ({ todo }: { todo: ToDo }) => {
       <div className="table-field">{todo.priority}</div>
       <div
         className="table-field"
-        style={{ backgroundColor: getDueDateColor(todo.dueDate) }}
+        style={{ backgroundColor: getDueDateColor(todo.dueDate, todo.done) }}
       >
         {todo.dueDate ? todo.dueDate : "-"}
       </div>
