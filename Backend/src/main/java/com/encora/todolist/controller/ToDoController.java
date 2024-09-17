@@ -59,7 +59,14 @@ public class ToDoController {
     }
 
     @GetMapping("/pages")
-    public ResponseEntity<Map<String, Integer>> getTotalPages(@RequestBody SearchDTO searchDTO) {
+    public ResponseEntity<Map<String, Integer>> getTotalPages(
+            @RequestParam(value = "text", required = false) String text,
+            @RequestParam(value = "priority", required = false) String priority,
+            @RequestParam(value = "state", required = false) String state,
+            @RequestParam(value = "sortByPriority", defaultValue = "") String sortByPriority,
+            @RequestParam(value = "sortByDueDate", defaultValue = "") String sortByDueDate,
+            @RequestParam(value = "pageNumber") int pageNumber) {
+        SearchDTO searchDTO = new SearchDTO(text, priority, state, sortByPriority, sortByDueDate, pageNumber);
         return tds.getTotalPages(searchDTO);
     }
 }
