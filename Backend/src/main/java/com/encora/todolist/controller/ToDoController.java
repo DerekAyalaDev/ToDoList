@@ -1,5 +1,6 @@
 package com.encora.todolist.controller;
 
+import com.encora.todolist.dto.ListToDoDTO;
 import com.encora.todolist.dto.MetricsDTO;
 import com.encora.todolist.dto.SearchDTO;
 import com.encora.todolist.dto.ToDoDTO;
@@ -21,7 +22,7 @@ public class ToDoController {
     private final ToDoService tds;
 
     @GetMapping
-    public ResponseEntity<List<ToDo>> getToDos(
+    public ResponseEntity<ListToDoDTO> getToDos(
             @RequestParam(value = "text", required = false) String text,
             @RequestParam(value = "priority", required = false) String priority,
             @RequestParam(value = "state", required = false) String state,
@@ -29,7 +30,6 @@ public class ToDoController {
             @RequestParam(value = "sortByDueDate", defaultValue = "") String sortByDueDate,
             @RequestParam(value = "pageNumber") int pageNumber) {
         SearchDTO searchDTO = new SearchDTO(text, priority, state, sortByPriority, sortByDueDate, pageNumber);
-
         return tds.searchToDos(searchDTO);
     }
 
@@ -56,17 +56,5 @@ public class ToDoController {
     @PutMapping("/{id}/status")
     public ResponseEntity<String> updateToDoStatus(@PathVariable("id") Long id) {
         return tds.updateDone(id);
-    }
-
-    @GetMapping("/pages")
-    public ResponseEntity<Map<String, Integer>> getTotalPages(
-            @RequestParam(value = "text", required = false) String text,
-            @RequestParam(value = "priority", required = false) String priority,
-            @RequestParam(value = "state", required = false) String state,
-            @RequestParam(value = "sortByPriority", defaultValue = "") String sortByPriority,
-            @RequestParam(value = "sortByDueDate", defaultValue = "") String sortByDueDate,
-            @RequestParam(value = "pageNumber") int pageNumber) {
-        SearchDTO searchDTO = new SearchDTO(text, priority, state, sortByPriority, sortByDueDate, pageNumber);
-        return tds.getTotalPages(searchDTO);
     }
 }

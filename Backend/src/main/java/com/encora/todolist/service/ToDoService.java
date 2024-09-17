@@ -1,5 +1,6 @@
 package com.encora.todolist.service;
 
+import com.encora.todolist.dto.ListToDoDTO;
 import com.encora.todolist.dto.MetricsDTO;
 import com.encora.todolist.dto.SearchDTO;
 import com.encora.todolist.dto.ToDoDTO;
@@ -62,35 +63,23 @@ public class ToDoService {
         toDoRepository.save(td);
         return new ResponseEntity<>("To Do updated successfully", HttpStatus.OK);
     }
-
-    public ResponseEntity<Map<String, Integer>> getTotalPages(SearchDTO dto) {
-        int pageSize = 10;
+    public ResponseEntity<ListToDoDTO> searchToDos(SearchDTO dto) {
         List<ToDo> tds = toDoRepository.findByCriteria(dto);
-        int totalPages = (int) Math.ceil((double) tds.size() / pageSize);
-
-        Map<String, Integer> response = new HashMap<>();
-        response.put("totalPages", totalPages);
-
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        int totalPages = tds.isEmpty() ? 1 : (int) Math.ceil((double) tds.size() / pageSize);
+        tds = sortToDos(dto,tds);
+        return new ResponseEntity<>(new ListToDoDTO(tds, totalPages), HttpStatus.OK);
     }
 
-    public ResponseEntity<List<ToDo>> searchToDos(SearchDTO dto) {
-        List<ToDo> tds = toDoRepository.findByCriteria(dto);
-        return new ResponseEntity<>(sortToDos(dto, tds), HttpStatus.OK);
-    }
 
     public List<ToDo> sortToDos(SearchDTO dto, List<ToDo> tds) {
-        // Ordenar tanto por prioridad como por dueDate
         if (!dto.getSortByPriority().isEmpty() && !dto.getSortByDueDate().isEmpty()) {
             tds = tds.stream()
                     .sorted((td1, td2) -> {
-                        // Comparar por prioridad
                         Integer priority1 = PRIORITY_MAP.get(td1.getPriority());
                         Integer priority2 = PRIORITY_MAP.get(td2.getPriority());
                         int result = dto.getSortByPriority().equalsIgnoreCase("asc") ?
                                 priority1.compareTo(priority2) : priority2.compareTo(priority1);
 
-                        // Si las prioridades son iguales, ordenar por dueDate
                         if (result == 0) {
                             result = compareDueDates(td1, td2, dto.getSortByDueDate());
                         }
@@ -98,7 +87,6 @@ public class ToDoService {
                     })
                     .collect(Collectors.toList());
         }
-        // Ordenar solo por prioridad
         else if (!dto.getSortByPriority().isEmpty()) {
             tds = tds.stream()
                     .sorted((td1, td2) -> {
@@ -109,14 +97,12 @@ public class ToDoService {
                     })
                     .collect(Collectors.toList());
         }
-        // Ordenar solo por dueDate
         else if (!dto.getSortByDueDate().isEmpty()) {
             tds = tds.stream()
                     .sorted((td1, td2) -> compareDueDates(td1, td2, dto.getSortByDueDate()))
                     .collect(Collectors.toList());
         }
 
-        // Paginación
         int start = dto.getPageNumber() * pageSize;
         int end = Math.min(start + pageSize, tds.size());
         if (start > tds.size()) {
@@ -126,21 +112,18 @@ public class ToDoService {
         return tds.subList(start, end);
     }
 
-    // Método auxiliar para comparar dueDates
     private int compareDueDates(ToDo td1, ToDo td2, String sortOrder) {
         LocalDate dueDate1 = td1.getDueDate();
         LocalDate dueDate2 = td2.getDueDate();
 
-        // Ordenar los nulls dependiendo del orden especificado
         if (dueDate1 == null && dueDate2 == null) {
-            return 0; // Ambos son null, son iguales
+            return 0;
         } else if (dueDate1 == null) {
             return sortOrder.equalsIgnoreCase("asc") ? 1 : -1; // null va al final si es ascendente
         } else if (dueDate2 == null) {
             return sortOrder.equalsIgnoreCase("asc") ? -1 : 1; // null va al principio si es descendente
         }
 
-        // Comparar normalmente si ninguno es null
         return sortOrder.equalsIgnoreCase("asc") ?
                 dueDate1.compareTo(dueDate2) : dueDate2.compareTo(dueDate1);
     }
