@@ -10,7 +10,8 @@ export const CustomForm = ({
   includeDate,
   initialValues,
   onSearchSubmit,
-  searchFormValues
+  searchFormValues,
+  onToDoSubmit,
 }: CustomFormProps) => {
   const [name, setName] = useState(initialValues?.text || searchFormValues?.name || "");
   const [priority, setPriority] = useState(initialValues?.priority || searchFormValues?.priority || priorityOptions[0].value);
@@ -32,11 +33,18 @@ export const CustomForm = ({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
     if (onSearchSubmit) {
       onSearchSubmit({
         name,
         priority,
         state,
+      });
+    } else if (onToDoSubmit) {
+      onToDoSubmit({
+        name,
+        priority,
+        dueDate,
       });
     }
   };

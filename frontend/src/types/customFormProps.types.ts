@@ -8,5 +8,6 @@ export type CustomFormProps = {
   includeDate?: boolean,
   initialValues?: ToDo,
   searchFormValues?: searchFormType,
-  onSearchSubmit?: (values: { name: string; priority: string; state: string }) => void
+  onSearchSubmit?: (values: { name: string; priority: string; state: string }) => void,
+  onToDoSubmit?: (values: { name: string; priority: string; dueDate: string }) => void;
 }
