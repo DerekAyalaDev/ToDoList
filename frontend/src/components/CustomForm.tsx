@@ -9,22 +9,40 @@ export const CustomForm = ({
   stateOptions,
   includeDate,
   initialValues,
+  onSearchSubmit,
+  searchFormValues
 }: CustomFormProps) => {
-  const [name, setName] = useState(initialValues?.text || "");
-  const [priority, setPriority] = useState(
-    initialValues?.priority || priorityOptions[0].value
-  );
-  const [state, setState] = useState(stateOptions?.[0].value);
+  const [name, setName] = useState(initialValues?.text || searchFormValues?.name || "");
+  const [priority, setPriority] = useState(initialValues?.priority || searchFormValues?.priority || priorityOptions[0].value);
+  const [state, setState] = useState(searchFormValues?.state || "");
   const [dueDate, setDueDate] = useState(initialValues?.dueDate || "");
 
+
   useEffect(() => {
-    setName(initialValues?.text || "");
-    setPriority(initialValues?.priority || priorityOptions[0].value);
-    setDueDate(initialValues?.dueDate || "");
-  }, [initialValues]);
+    if (initialValues) {
+      setName(initialValues.text || "");
+      setPriority(initialValues.priority || priorityOptions[0].value);
+      setDueDate(initialValues.dueDate || "");
+    } else if (searchFormValues) {
+      setName(searchFormValues.name || "");
+      setPriority(searchFormValues.priority || priorityOptions[0].value);
+      setState(searchFormValues.state || "");
+    }
+  }, [initialValues, searchFormValues]);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (onSearchSubmit) {
+      onSearchSubmit({
+        name,
+        priority,
+        state,
+      });
+    }
+  };
 
   return (
-    <form className="form">
+    <form className="form" onSubmit={handleSubmit}>
       <div className="container-field">
         <label htmlFor="name">Name</label>
         <input
@@ -44,9 +62,20 @@ export const CustomForm = ({
       />
       <div className="row-button">
         {includeDate ? (
-          <DateInput id="dueDate" label="Due Date" value={dueDate} onChange={(e) => setDueDate(e.target.value)}/>
+          <DateInput
+            id="dueDate"
+            label="Due Date"
+            value={dueDate}
+            onChange={(e) => setDueDate(e.target.value)}
+          />
         ) : (
-          <SelectInput id="state" label="State" options={stateOptions} value={state} onChange={(e) => setState(e.target.value)}/>
+          <SelectInput
+            id="state"
+            label="State"
+            options={stateOptions}
+            value={state}
+            onChange={(e) => setState(e.target.value)}
+          />
         )}
         <button className="form-btn background-green" type="submit">
           {btnLabel}
