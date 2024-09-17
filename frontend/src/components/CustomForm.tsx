@@ -10,7 +10,7 @@ export const CustomForm = ({
   includeDate,
   initialValues,
 }: CustomFormProps) => {
-  const [name, setName] = useState(initialValues?.name || "");
+  const [name, setName] = useState(initialValues?.text || "");
   const [priority, setPriority] = useState(
     initialValues?.priority || priorityOptions[0].value
   );
@@ -18,7 +18,7 @@ export const CustomForm = ({
   const [dueDate, setDueDate] = useState(initialValues?.dueDate || "");
 
   useEffect(() => {
-    setName(initialValues?.name || "");
+    setName(initialValues?.text || "");
     setPriority(initialValues?.priority || priorityOptions[0].value);
     setDueDate(initialValues?.dueDate || "");
   }, [initialValues]);
