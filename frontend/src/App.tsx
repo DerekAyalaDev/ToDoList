@@ -9,6 +9,7 @@ import "./styles/FormStyles.css";
 import "./styles/MetricsStyles.css";
 import "./styles/ModalStyles.css";
 import "./styles/TableStyles.css";
+import "./styles/PaginationStyles.css"
 import { SearchProvider } from "./components/SearchContext";
 
 function App() {

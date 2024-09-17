@@ -3,6 +3,7 @@ import { TodoRow, EmptyRow } from "./Row";
 import { SortableButton } from "./SortableButton";
 import { useEffect, useState } from "react";
 import { ToDo } from "../types/toDoTableProps.type";
+import { Pagination } from "./Pagination";
 
 export const TodoTable = () => {
   const { searchState, setSearchState } = useSearchContext();
@@ -89,6 +90,7 @@ export const TodoTable = () => {
           <EmptyRow key={index} keyIndex={index} />
         ))}
       </div>
+      <Pagination />
     </div>
   );
 };
