@@ -1,4 +1,5 @@
 export type sortableButtonProps = {
   label: string,
-  onSortChange: (sort: string) => void,
+  sortState: '' | 'asc' | 'desc',
+  onSortChange: (sortOrder: '' | 'asc' | 'desc') => void,
 }

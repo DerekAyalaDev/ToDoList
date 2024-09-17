@@ -1,10 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { sortableButtonProps } from "../types/sortableButtonProps.types";
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 
-export const SortableButton = ({ label, onSortChange }: sortableButtonProps) => {
-  const [sortState, setSortState] = useState<'' | 'asc' | 'desc'>('');
+export const SortableButton = ({ label, sortState: initialSortState ,onSortChange }: sortableButtonProps) => {
+  const [sortState, setSortState] = useState<'' | 'asc' | 'desc'>(initialSortState);
+
+  useEffect(() => {
+    setSortState(initialSortState);
+  }, [initialSortState]);
 
   const handleSortClick = () => {
     let newSortState: '' | 'asc' | 'desc';
